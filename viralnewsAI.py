@@ -372,6 +372,11 @@ class NewsAutomation:
                 logger.info(f"Skipping promotional article: {article.title}")
                 return False
 
+            # Check if all required parts are available
+            if not processed_content.summary or not article.source_name or not article.url or not processed_content.image_path:
+                logger.warning("Missing required parts for the post. Skipping.")
+                return False
+
             hashtag_text = " ".join(processed_content.hashtags[:5])
             message = (
                 f"{processed_content.summary}\n\n"
