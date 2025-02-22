@@ -1,10 +1,8 @@
 import os
-import time
 import logging
-import schedule
 import requests
 from typing import Optional, Dict, Any, List
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 from dataclasses import dataclass
 from google.generativeai import GenerativeModel, configure
 import facebook
@@ -142,8 +140,8 @@ class CloudflareAIClient(APIClient):
                     "prompt": prompt,
                     "num_steps": 20,
                     "guidance": 7.5,
-                    "width": 1024,  # Updated width for Facebook
-                    "height": 1024   # Updated height for Facebook
+                    "width": 1024,  # Updated width for realistic images
+                    "height": 1024   # Updated height for realistic images
                 }
 
                 response = requests.post(
@@ -198,11 +196,6 @@ class Config:
 
     def _create_default_config(self) -> Dict[str, Any]:
         default_config = {
-            'schedule': {
-                'interval': 5,
-                'start_hour': 8,
-                'end_hour': 22
-            },
             'content': {
                 'max_articles': 5,
                 'summary_length': 60,
@@ -327,7 +320,7 @@ class NewsAutomation:
     def _generate_image(self, summary: str, url: str) -> Optional[str]:
         try:
             prompt_prefix = self.config.config['content'].get('image_prompt_prefix', '')
-            prompt = f"{prompt_prefix}{summary}"
+            prompt = f"{prompt_prefix}{summary}. Make it realistic."
             image_data = self.cloudflare_ai.generate_image(prompt)
 
             if not image_data:
@@ -435,8 +428,8 @@ class NewsAutomation:
 
                 processed_content = self.process_article(article)
                 if processed_content:
-                    self.post_to_facebook(article, processed_content)
-                    break
+                    if self.post_to_facebook(article, processed_content):
+                        break  # Ensure only one post per run
         except Exception as e:
             logger.error(f"Error in news processing: {str(e)}")
 
@@ -444,16 +437,7 @@ def run_automation(config_path: str = "config.yaml"):
     try:
         config = Config(config_path)
         news_bot = NewsAutomation(config_path)
-
-        interval_minutes = config.config['schedule']['interval']
-        schedule.every(interval_minutes).minutes.do(news_bot.process_news).tag('news_automation')
-
         news_bot.process_news()
-        logger.info(f"Starting automation - Running every {interval_minutes} minutes")
-
-        while True:
-            schedule.run_pending()
-            time.sleep(60)
     except Exception as e:
         logger.error(f"Error in automation: {str(e)}")
         raise
