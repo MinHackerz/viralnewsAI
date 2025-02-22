@@ -1,0 +1,50 @@
+2025-02-22 16:19:03,020 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
+2025-02-22 16:19:03,020 - __main__ - INFO - Article already posted: Pope has restful night, has breakfast in armchair - Vatican News - English
+2025-02-22 16:19:25,857 - __main__ - INFO - Successfully posted article: Three buses explode in Tel Aviv in 'suspected terror attack' - BBC.com
+2025-02-22 16:21:01,010 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
+2025-02-22 16:21:01,011 - __main__ - INFO - Article already posted: Pope has restful night, has breakfast in armchair - Vatican News - English
+2025-02-22 16:21:01,011 - __main__ - INFO - Article already posted: Three buses explode in Tel Aviv in 'suspected terror attack' - BBC.com
+2025-02-22 16:21:16,948 - __main__ - ERROR - Unexpected response format from Cloudflare API
+2025-02-22 16:21:16,949 - __main__ - WARNING - Image not available. Retrying image generation...
+2025-02-22 16:21:22,648 - __main__ - ERROR - Unexpected response format from Cloudflare API
+2025-02-22 16:21:25,522 - __main__ - INFO - Successfully posted article: MLB games will soon be off ESPN airwaves in media bombshell - New York Post 
+2025-02-22 16:22:12,664 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
+2025-02-22 16:22:12,664 - __main__ - INFO - Article already posted: Pope has restful night, has breakfast in armchair - Vatican News - English
+2025-02-22 16:22:12,664 - __main__ - INFO - Article already posted: Three buses explode in Tel Aviv in 'suspected terror attack' - BBC.com
+2025-02-22 16:22:12,664 - __main__ - INFO - Article already posted: MLB games will soon be off ESPN airwaves in media bombshell - New York Post 
+2025-02-22 16:23:41,964 - __main__ - ERROR - Image generation failed: 400 - {"errors":[{"message":"AiError: AiError: Model input is not valid: missing required input image","code":3030}],"success":false,"result":{},"messages":[]}
+2025-02-22 16:23:41,965 - __main__ - WARNING - Image not available. Retrying image generation...
+2025-02-22 16:23:42,650 - __main__ - ERROR - Image generation failed: 400 - {"errors":[{"message":"AiError: AiError: Model input is not valid: missing required input mask_image","code":3030}],"success":false,"result":{},"messages":[]}
+2025-02-22 16:23:44,933 - __main__ - INFO - Successfully posted article: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
+2025-02-22 16:24:44,225 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
+2025-02-22 16:24:58,150 - __main__ - INFO - Successfully posted article: Pope has restful night, has breakfast in armchair - Vatican News - English
+2025-02-22 16:25:44,336 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
+2025-02-22 16:25:44,337 - __main__ - INFO - Article already posted: Pope has restful night, has breakfast in armchair - Vatican News - English
+2025-02-22 16:25:49,041 - __main__ - ERROR - Image generation failed: 400 - {"errors":[{"message":"AiError: AiError: Model input is not valid: missing required input image","code":3030}],"success":false,"result":{},"messages":[]}
+2025-02-22 16:25:49,042 - __main__ - WARNING - Image not available. Retrying image generation...
+2025-02-22 16:25:49,396 - __main__ - ERROR - Image generation failed: 400 - {"errors":[{"message":"AiError: AiError: Model input is not valid: missing required input image","code":3030}],"success":false,"result":{},"messages":[]}
+2025-02-22 16:25:51,575 - __main__ - INFO - Successfully posted article: Three buses explode in Tel Aviv in 'suspected terror attack' - BBC.com
+2025-02-22 16:27:17,827 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
+2025-02-22 16:27:17,828 - __main__ - INFO - Article already posted: Pope has restful night, has breakfast in armchair - Vatican News - English
+2025-02-22 16:27:17,828 - __main__ - INFO - Article already posted: Three buses explode in Tel Aviv in 'suspected terror attack' - BBC.com
+2025-02-22 16:27:27,970 - __main__ - ERROR - Unexpected response format from Cloudflare API
+2025-02-22 16:27:27,970 - __main__ - WARNING - Image not available. Retrying image generation...
+2025-02-22 16:27:34,568 - __main__ - ERROR - Unexpected response format from Cloudflare API
+2025-02-22 16:27:36,769 - __main__ - INFO - Successfully posted article: MLB games will soon be off ESPN airwaves in media bombshell - New York Post 
+2025-02-22 16:28:35,345 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
+2025-02-22 16:28:35,347 - __main__ - INFO - Article already posted: Pope has restful night, has breakfast in armchair - Vatican News - English
+2025-02-22 16:28:35,347 - __main__ - INFO - Article already posted: Three buses explode in Tel Aviv in 'suspected terror attack' - BBC.com
+2025-02-22 16:28:35,347 - __main__ - INFO - Article already posted: MLB games will soon be off ESPN airwaves in media bombshell - New York Post 
+2025-02-22 16:32:29,533 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
+2025-02-22 16:32:29,535 - __main__ - INFO - Article already posted: Pope has restful night, has breakfast in armchair - Vatican News - English
+2025-02-22 16:32:29,535 - __main__ - INFO - Article already posted: Three buses explode in Tel Aviv in 'suspected terror attack' - BBC.com
+2025-02-22 16:32:29,535 - __main__ - INFO - Article already posted: MLB games will soon be off ESPN airwaves in media bombshell - New York Post 
+2025-02-22 16:34:32,186 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
+2025-02-22 16:34:32,186 - __main__ - INFO - Article already posted: Pope has restful night, has breakfast in armchair - Vatican News - English
+2025-02-22 16:34:32,187 - __main__ - INFO - Article already posted: Three buses explode in Tel Aviv in 'suspected terror attack' - BBC.com
+2025-02-22 16:34:32,187 - __main__ - INFO - Article already posted: MLB games will soon be off ESPN airwaves in media bombshell - New York Post 
+2025-02-22 16:36:50,603 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
+2025-02-22 16:36:50,604 - __main__ - INFO - Article already posted: Pope has restful night, has breakfast in armchair - Vatican News - English
+2025-02-22 16:36:50,604 - __main__ - INFO - Article already posted: Three buses explode in Tel Aviv in 'suspected terror attack' - BBC.com
+2025-02-22 16:36:50,604 - __main__ - INFO - Article already posted: MLB games will soon be off ESPN airwaves in media bombshell - New York Post 
+2025-02-22 16:40:53,750 - __main__ - INFO - Successfully posted article: CNBC Daily Open: Alibaba shares jump and Amazon beats Walmart in quarterly revenue - CNBC

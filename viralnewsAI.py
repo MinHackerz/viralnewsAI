@@ -271,6 +271,11 @@ class NewsAutomation:
             if response.status_code != 200:
                 raise Exception(f"NewsAPI error: {response.text}")
 
+            articles = response.json().get('articles', [])
+            if not articles:
+                logger.warning("No new articles found")
+                return []
+
             return [
                 NewsArticle(
                     title=article['title'],
@@ -278,7 +283,7 @@ class NewsAutomation:
                     content=article.get('description', ''),
                     published_at=datetime.fromisoformat(article['publishedAt'].replace('Z', '+00:00')),
                     source_name=article['source']['name']
-                ) for article in response.json()['articles']
+                ) for article in articles
             ]
         except Exception as e:
             logger.error(f"Error fetching news: {str(e)}")
@@ -416,20 +421,21 @@ class NewsAutomation:
 
     def process_news(self) -> None:
         try:
-            articles = self.get_viral_news()
-            if not articles:
-                logger.warning("No articles found")
-                return
+            while True:
+                articles = self.get_viral_news()
+                if not articles:
+                    logger.warning("No articles found")
+                    break
 
-            for article in articles:
-                if article.url in self.posted_articles:
-                    logger.info(f"Article already posted: {article.title}")
-                    continue
+                for article in articles:
+                    if article.url in self.posted_articles:
+                        logger.info(f"Article already posted: {article.title}")
+                        continue
 
-                processed_content = self.process_article(article)
-                if processed_content:
-                    if self.post_to_facebook(article, processed_content):
-                        break  # Ensure only one post per run
+                    processed_content = self.process_article(article)
+                    if processed_content:
+                        if self.post_to_facebook(article, processed_content):
+                            return  # Ensure only one post per run
         except Exception as e:
             logger.error(f"Error in news processing: {str(e)}")
 
