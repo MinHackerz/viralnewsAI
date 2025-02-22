@@ -1,0 +1,15 @@
+schedule:
+  interval: 5  # 5 minutes
+  start_hour: 8
+  end_hour: 22
+
+content:
+  max_articles: 5
+  summary_length: 60
+  hashtag_count: 4
+
+image:
+  font_size: 36
+  font_path: 'fonts/Arial.ttf'
+  text_color: [255, 255, 255]
+  background_opacity: 128

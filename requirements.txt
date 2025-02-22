@@ -1,0 +1,10 @@
+requests~=2.32.3
+schedule~=1.2.2
+newspaper3k
+google-generativeai
+facebook-sdk
+Pillow
+python-dotenv~=1.0.1
+pyyaml~=6.0.2
+urllib3~=2.3.0
+pytz~=2025.1
