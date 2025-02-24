@@ -14,6 +14,7 @@ import base64
 import hashlib
 import imghdr
 import random
+import time  # Import the time module
 
 # Suppress SSL warnings
 import warnings
@@ -148,7 +149,7 @@ class CloudflareAIClient(APIClient):
                     f"{self.api_base}{self.model}",
                     headers=self.headers,
                     json=payload,
-                    timeout=45  # Increased timeout for image generation
+                    timeout=120  # Increased timeout for image generation
                 )
 
                 if response.status_code == 200:
@@ -324,9 +325,9 @@ class NewsAutomation:
 
     def _generate_image(self, summary: str, url: str) -> Optional[str]:
         try:
-            prompt_prefix = self.config.config['content'].get('image_prompt_prefix', '')
-            prompt = f"{prompt_prefix}{summary}. Make it realistic."
-            image_data = self.cloudflare_ai.generate_image(prompt)
+            # Generate an advanced prompt using Gemini AI
+            advanced_prompt = self._generate_advanced_image_prompt(summary)
+            image_data = self.cloudflare_ai.generate_image(advanced_prompt)
 
             if not image_data:
                 return None
@@ -350,6 +351,18 @@ class NewsAutomation:
         except Exception as e:
             logger.error(f"Error generating/saving image: {str(e)}")
             return None
+
+    def _generate_advanced_image_prompt(self, summary: str) -> str:
+        try:
+            prompt = (
+                f"Create a highly detailed and realistic image prompt for the following news summary: {summary}. "
+                f"Include specific details, colors, and styles to make the image as realistic as possible."
+            )
+            response = self.genai_model.generate_content(prompt)
+            return response.text if response.text else summary
+        except Exception as e:
+            logger.error(f"Error generating advanced image prompt: {str(e)}")
+            return summary
 
     def _is_promotional(self, text: str) -> bool:
         promotional_keywords = ["advertisement", "sponsored", "promotion", "buy now", "limited offer"]
