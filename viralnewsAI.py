@@ -225,7 +225,7 @@ class NewsAutomation:
 
     def _initialize_clients(self) -> None:
         self.news_api = NewsAPIClient(os.getenv('NEWSAPI_KEY'))
-        self.genai_model = GenerativeModel(model_name="gemini-pro")
+        self.genai_model = GenerativeModel(model_name="gemini-2.0-flash-thinking-exp-1219")
         self.fb_api = facebook.GraphAPI(access_token=os.getenv('FACEBOOK_ACCESS_TOKEN'))
         self.page_id = "530122440176152"
         self.cloudflare_ai = CloudflareAIClient()
@@ -318,7 +318,11 @@ class NewsAutomation:
         try:
             prompt = f"Generate exactly {self.config.config['content']['hashtag_count']} relevant hashtags for this news: {text}"
             response = self.genai_model.generate_content(prompt)
-            return response.text.strip().split() if response.text else []
+            # Extract only the hashtags from the response
+            if response.text:
+                hashtags = [word for word in response.text.split() if word.startswith('#')]
+                return hashtags[:self.config.config['content']['hashtag_count']]
+            return []
         except Exception as e:
             logger.error(f"Error generating hashtags: {str(e)}")
             return []
