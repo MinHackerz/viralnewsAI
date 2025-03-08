@@ -10,6 +10,7 @@ import yaml
 from dotenv import load_dotenv
 from abc import ABC, abstractmethod
 import pytz
+import base64
 import hashlib
 import imghdr
 import random
@@ -49,7 +50,6 @@ class NewsArticle:
     content: str
     published_at: datetime
     source_name: str
-    thumbnail_url: Optional[str] = None
 
 @dataclass
 class ProcessedContent:
@@ -57,6 +57,7 @@ class ProcessedContent:
     summary: str
     hashtags: List[str]
     image_path: Optional[str] = None
+    image_quality_score: Optional[float] = None
 
 class APIClient(ABC):
     """Abstract base class for API clients"""
@@ -97,6 +98,142 @@ class NewsAPIClient(APIClient):
 
     def _calculate_wait_time(self) -> int:
         return 86400
+
+class CloudflareAIClient(APIClient):
+    """Client for Cloudflare's Stability AI image generation"""
+
+    def __init__(self):
+        self.api_base = "https://api.cloudflare.com/client/v4/accounts/b55873aa54248ed3e24ee55febd2e526/ai/run/"
+        self.model = "@cf/stabilityai/stable-diffusion-xl-base-1.0"
+        self.headers = {
+            "Authorization": f"Bearer {os.getenv('CLOUDFLARE_API_KEY')}",
+            "Content-Type": "application/json"
+        }
+
+    def validate_credentials(self) -> bool:
+        try:
+            # Simple ping to validate credentials without full image generation
+            response = requests.post(
+                f"{self.api_base}{self.model}",
+                headers=self.headers,
+                json={"prompt": "test"},
+                timeout=30  # Increased timeout
+            )
+
+            # Check for 401 Unauthorized or 403 Forbidden
+            if response.status_code in [401, 403]:
+                return False
+
+            return True  # Consider any 2xx/4xx (except 401/403) as valid configuration
+
+        except requests.exceptions.Timeout:
+            logger.error("Cloudflare API connection timed out. Check your internet connection.")
+            return False
+        except Exception as e:
+            logger.error(f"Cloudflare API validation failed: {str(e)}")
+            return False
+
+    def handle_rate_limits(self) -> None:
+        pass
+
+    def generate_image(self, prompt: str) -> Optional[Dict[str, Any]]:
+        """Generate image from text prompt with retry logic and return image data and quality metadata"""
+        max_retries = 5
+        wait_time = 1  # Initial wait time in seconds
+
+        for attempt in range(max_retries):
+            try:
+                payload = {
+                    "prompt": prompt,
+                    "num_steps": 20,  # Reduced steps to 20
+                    "guidance": 8.5,  # Increased guidance for stronger adherence to prompt
+                    "width": 1024,
+                    "height": 1024
+                }
+
+                response = requests.post(
+                    f"{self.api_base}{self.model}",
+                    headers=self.headers,
+                    json=payload,
+                    timeout=180  # Increased timeout for better image generation
+                )
+
+                if response.status_code == 200:
+                    # Try to parse as JSON first
+                    try:
+                        json_response = response.json()
+                        if 'result' in json_response and 'image_b64' in json_response['result']:
+                            image_data = base64.b64decode(json_response['result']['image_b64'])
+                            quality_score = self._evaluate_image_quality(image_data)
+
+                            return {
+                                "image_data": image_data,
+                                "quality_score": quality_score
+                            }
+                    except ValueError:
+                        # If not JSON, treat as raw image bytes
+                        if response.headers.get('Content-Type', '').startswith('image/'):
+                            quality_score = self._evaluate_image_quality(response.content)
+                            return {
+                                "image_data": response.content,
+                                "quality_score": quality_score
+                            }
+
+                    logger.error("Unexpected response format from Cloudflare API")
+                    return None
+
+                elif response.status_code == 429:
+                    logger.warning(f"Capacity exceeded. Retrying in {wait_time} seconds...")
+                    time.sleep(wait_time)
+                    wait_time = min(wait_time * 2 + random.uniform(0, 1), 64)  # Exponential backoff with jitter
+                else:
+                    logger.error(f"Image generation failed: {response.status_code} - {response.text[:200]}")
+                    return None
+
+            except Exception as e:
+                logger.error(f"Image generation error: {str(e)}")
+                return None
+
+        logger.error("Max retries exceeded. Failed to generate image.")
+        return None
+
+    def _evaluate_image_quality(self, image_data: bytes) -> float:
+        """Evaluate the quality of the generated image based on various metrics"""
+        try:
+            # Load image using PIL
+            img = Image.open(io.BytesIO(image_data))
+
+            # Basic quality checks
+            width, height = img.size
+            aspect_ratio = width / height
+
+            # Image size score (higher resolution = better quality)
+            size_score = min(1.0, (width * height) / (2048 * 2048))
+
+            # Check for aspect ratio (closer to 1 for square images)
+            aspect_score = 1.0 - abs(1.0 - aspect_ratio) if aspect_ratio > 0 else 0
+
+            # Convert to grayscale to check contrast
+            gray_img = img.convert('L')
+            histogram = gray_img.histogram()
+
+            # Check histogram distribution for contrast
+            hist_values = histogram[5:-5]  # Exclude extreme blacks and whites
+            std_dev = sum((i - 128) ** 2 * count for i, count in enumerate(hist_values)) / sum(hist_values) if sum(
+                hist_values) > 0 else 0
+            contrast_score = min(1.0, std_dev / 2500)
+
+            # Calculate final quality score (weighted average)
+            quality_score = 0.4 * size_score + 0.3 * aspect_score + 0.3 * contrast_score
+
+            logger.info(
+                f"Image quality assessment: size={size_score:.2f}, aspect={aspect_score:.2f}, contrast={contrast_score:.2f}, overall={quality_score:.2f}")
+
+            return quality_score
+
+        except Exception as e:
+            logger.error(f"Error evaluating image quality: {str(e)}")
+            return 0.0  # Return minimum score on error
 
 class Config:
     """Configuration manager"""
@@ -148,12 +285,14 @@ class NewsAutomation:
         self.genai_model = GenerativeModel(model_name="gemini-2.0-flash-thinking-exp-1219")
         self.fb_api = facebook.GraphAPI(access_token=os.getenv('FACEBOOK_ACCESS_TOKEN'))
         self.page_id = "530122440176152"
+        self.cloudflare_ai = CloudflareAIClient()
 
     def _validate_setup(self) -> None:
         # First check environment variables
         required_env_vars = [
             'GOOGLE_API_KEY',
             'FACEBOOK_ACCESS_TOKEN',
+            'CLOUDFLARE_API_KEY',
             'NEWSAPI_KEY'
         ]
 
@@ -164,6 +303,15 @@ class NewsAutomation:
         # Then validate credentials
         if not self.news_api.validate_credentials():
             raise ValueError("Invalid NewsAPI credentials")
+
+        if not self.cloudflare_ai.validate_credentials():
+            raise ValueError(
+                "Invalid Cloudflare API credentials. Check your:\n"
+                "1. CLOUDFLARE_API_KEY in .env file\n"
+                "2. Internet connection\n"
+                "3. Firewall settings\n"
+                "4. API endpoint availability"
+            )
 
     def get_viral_news(self) -> List[NewsArticle]:
         self.news_api.handle_rate_limits()
@@ -193,8 +341,7 @@ class NewsAutomation:
                     url=article['url'],
                     content=article.get('description', ''),
                     published_at=datetime.fromisoformat(article['publishedAt'].replace('Z', '+00:00')),
-                    source_name=article['source']['name'],
-                    thumbnail_url=article.get('urlToImage')
+                    source_name=article['source']['name']
                 ) for article in articles
             ]
         except Exception as e:
@@ -205,16 +352,19 @@ class NewsAutomation:
         try:
             summary = self._generate_summary(article.content)
             hashtags = self._generate_hashtags(article.content)
-            image_path = self._save_thumbnail(article.thumbnail_url)
+            image_result = self._generate_high_quality_image(summary, article.url)
 
-            if not image_path:
-                logger.error("Failed to save thumbnail for the article")
+            if not image_result:
+                logger.error("Failed to generate acceptable image for the article")
                 return None
+
+            image_path, quality_score = image_result
 
             return ProcessedContent(
                 summary=summary,
                 hashtags=hashtags,
-                image_path=image_path
+                image_path=image_path,
+                image_quality_score=quality_score
             )
         except Exception as e:
             logger.error(f"Error processing article: {str(e)}")
@@ -278,35 +428,95 @@ class NewsAutomation:
         all_tags = tech_tags + custom_tags
         return all_tags[:self.config.config['content']['hashtag_count']]
 
-    def _save_thumbnail(self, thumbnail_url: Optional[str]) -> Optional[str]:
-        if not thumbnail_url:
-            return None
+    def _generate_high_quality_image(self, summary: str, url: str) -> Optional[tuple]:
+        """Generate high-quality image with quality validation"""
+        max_attempts = 3
+        min_quality_score = self.config.config['content'].get('min_image_quality_score', 0.7)
 
+        for attempt in range(1, max_attempts + 1):
+            try:
+                logger.info(f"Generating image - attempt {attempt} of {max_attempts}")
+
+                # Generate an advanced prompt using Gemini AI
+                advanced_prompt = self._generate_advanced_image_prompt(summary)
+                image_result = self.cloudflare_ai.generate_image(advanced_prompt)
+
+                if not image_result:
+                    logger.warning(f"No image data received on attempt {attempt}")
+                    continue
+
+                image_data = image_result.get("image_data")
+                quality_score = image_result.get("quality_score", 0)
+
+                logger.info(f"Image generated with quality score: {quality_score:.2f}")
+
+                # Check if image meets minimum quality requirements
+                if quality_score < min_quality_score:
+                    logger.warning(
+                        f"Image quality score {quality_score:.2f} below threshold {min_quality_score}. Retrying...")
+                    continue
+
+                # Validate image format
+                image_format = imghdr.what(None, image_data)
+                if image_format not in ['jpeg', 'png']:
+                    logger.error(f"Invalid image format received: {image_format}")
+                    continue
+
+                # Save the high-quality image
+                url_hash = hashlib.md5(url.encode()).hexdigest()[:8]
+                timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+                extension = 'jpg' if image_format == 'jpeg' else image_format
+                filename = f"{timestamp}_{url_hash}.{extension}"
+                image_path = os.path.join("images", filename)
+
+                with open(image_path, "wb") as f:
+                    f.write(image_data)
+
+                logger.info(f"High-quality image saved to {image_path}")
+                return image_path, quality_score
+
+            except Exception as e:
+                logger.error(f"Error in high-quality image generation (attempt {attempt}): {str(e)}")
+
+        logger.error("Failed to generate acceptable image after maximum attempts")
+        return None
+
+    def _generate_advanced_image_prompt(self, summary: str) -> str:
+        """Generate a detailed prompt for tech news image generation"""
         try:
-            response = requests.get(thumbnail_url, timeout=30)
-            if response.status_code != 200:
-                logger.error(f"Failed to download thumbnail: {response.status_code}")
-                return None
+            # Technology-focused prompt
+            prompt = (
+                f"Create a highly detailed and photorealistic image generation prompt for a technology news story about: '{summary}'. "
+                f"Include specific visual elements like:\n"
+                f"1. Professional tech photography style (product photography, tech journalism, futuristic)\n"
+                f"2. Clean, modern lighting with blue/white tech color schemes\n"
+                f"3. Technical details and computer/device screens showing relevant data\n"
+                f"4. Advanced technology elements like circuits, servers, or gadgets\n"
+                f"5. Professional setting like a data center, tech office, or research lab\n"
+                f"6. Focus on showing technology in use or the impact of technology\n"
+                f"Your prompt should create a realistic tech news image that looks professionally photographed. "
+                f"Avoid cartoon-like styles, clipart, or low-quality renders. "
+                f"Format: 'Photorealistic technology news image showing [specific tech scene description with all details above].'"
+            )
 
-            image_format = imghdr.what(None, response.content)
-            if image_format not in ['jpeg', 'png']:
-                logger.error(f"Invalid image format received: {image_format}")
-                return None
+            response = self.genai_model.generate_content(prompt)
 
-            url_hash = hashlib.md5(thumbnail_url.encode()).hexdigest()[:8]
-            timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-            extension = 'jpg' if image_format == 'jpeg' else image_format
-            filename = f"{timestamp}_{url_hash}.{extension}"
-            image_path = os.path.join("images", filename)
+            if not response.text:
+                logger.warning("Empty response from image prompt generation")
+                return f"Photorealistic technology news image representing: {summary}"
 
-            with open(image_path, "wb") as f:
-                f.write(response.content)
+            # Add quality boosting terms specific to tech imagery
+            quality_boosters = (
+                "8K resolution, highly detailed, photorealistic, professional technology photography, "
+                "sharp focus, high quality, realistic lighting, tech magazine style, clean background"
+            )
 
-            logger.info(f"Thumbnail saved to {image_path}")
-            return image_path
+            enhanced_prompt = f"{response.text.strip()} {quality_boosters}"
+            logger.info(f"Generated tech image prompt: {enhanced_prompt[:100]}...")
+            return enhanced_prompt
         except Exception as e:
-            logger.error(f"Error saving thumbnail: {str(e)}")
-            return None
+            logger.error(f"Error generating advanced image prompt: {str(e)}")
+            return f"Photorealistic technology news image representing: {summary}"
 
     def _is_promotional(self, text: str) -> bool:
         promotional_keywords = ["advertisement", "sponsored", "promotion", "buy now", "limited offer"]
@@ -344,8 +554,13 @@ class NewsAutomation:
                 return False
 
             # Check for image quality - if no image or quality below threshold, we cannot proceed
-            if not processed_content.image_path or not os.path.exists(processed_content.image_path):
-                logger.error("Image path is invalid or does not exist")
+            min_quality_score = self.config.config['content'].get('min_image_quality_score', 0.7)
+            if (not processed_content.image_path or
+                    not os.path.exists(processed_content.image_path) or
+                    processed_content.image_quality_score is None or
+                    processed_content.image_quality_score < min_quality_score):
+                logger.error(
+                    f"Image quality check failed. Score: {processed_content.image_quality_score}, Threshold: {min_quality_score}")
                 return False
 
             # Format hashtags properly
