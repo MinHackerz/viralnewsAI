@@ -2,7 +2,7 @@ name: News Automation
 
 on:
   schedule:
-    - cron: '0 */1 * * *'  # Runs every 3 hours
+    - cron: '0 */1 * * *'  # Runs every hour
   workflow_dispatch:  # Allows manual triggering
 
 jobs:
@@ -25,9 +25,7 @@ jobs:
 
     - name: Run automation script
       env:
-        GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         FACEBOOK_ACCESS_TOKEN: ${{ secrets.FACEBOOK_ACCESS_TOKEN }}
-        CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
         NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
       run: |
         python viralnewsAI.py

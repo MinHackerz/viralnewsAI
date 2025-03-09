@@ -1,62 +1,89 @@
-2025-02-22 16:19:03,020 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
-2025-02-22 16:19:03,020 - __main__ - INFO - Article already posted: Pope has restful night, has breakfast in armchair - Vatican News - English
-2025-02-22 16:19:25,857 - __main__ - INFO - Successfully posted article: Three buses explode in Tel Aviv in 'suspected terror attack' - BBC.com
-2025-02-22 16:21:01,010 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
-2025-02-22 16:21:01,011 - __main__ - INFO - Article already posted: Pope has restful night, has breakfast in armchair - Vatican News - English
-2025-02-22 16:21:01,011 - __main__ - INFO - Article already posted: Three buses explode in Tel Aviv in 'suspected terror attack' - BBC.com
-2025-02-22 16:21:16,948 - __main__ - ERROR - Unexpected response format from Cloudflare API
-2025-02-22 16:21:16,949 - __main__ - WARNING - Image not available. Retrying image generation...
-2025-02-22 16:21:22,648 - __main__ - ERROR - Unexpected response format from Cloudflare API
-2025-02-22 16:21:25,522 - __main__ - INFO - Successfully posted article: MLB games will soon be off ESPN airwaves in media bombshell - New York Post 
-2025-02-22 16:22:12,664 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
-2025-02-22 16:22:12,664 - __main__ - INFO - Article already posted: Pope has restful night, has breakfast in armchair - Vatican News - English
-2025-02-22 16:22:12,664 - __main__ - INFO - Article already posted: Three buses explode in Tel Aviv in 'suspected terror attack' - BBC.com
-2025-02-22 16:22:12,664 - __main__ - INFO - Article already posted: MLB games will soon be off ESPN airwaves in media bombshell - New York Post 
-2025-02-22 16:23:41,964 - __main__ - ERROR - Image generation failed: 400 - {"errors":[{"message":"AiError: AiError: Model input is not valid: missing required input image","code":3030}],"success":false,"result":{},"messages":[]}
-2025-02-22 16:23:41,965 - __main__ - WARNING - Image not available. Retrying image generation...
-2025-02-22 16:23:42,650 - __main__ - ERROR - Image generation failed: 400 - {"errors":[{"message":"AiError: AiError: Model input is not valid: missing required input mask_image","code":3030}],"success":false,"result":{},"messages":[]}
-2025-02-22 16:23:44,933 - __main__ - INFO - Successfully posted article: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
-2025-02-22 16:24:44,225 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
-2025-02-22 16:24:58,150 - __main__ - INFO - Successfully posted article: Pope has restful night, has breakfast in armchair - Vatican News - English
-2025-02-22 16:25:44,336 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
-2025-02-22 16:25:44,337 - __main__ - INFO - Article already posted: Pope has restful night, has breakfast in armchair - Vatican News - English
-2025-02-22 16:25:49,041 - __main__ - ERROR - Image generation failed: 400 - {"errors":[{"message":"AiError: AiError: Model input is not valid: missing required input image","code":3030}],"success":false,"result":{},"messages":[]}
-2025-02-22 16:25:49,042 - __main__ - WARNING - Image not available. Retrying image generation...
-2025-02-22 16:25:49,396 - __main__ - ERROR - Image generation failed: 400 - {"errors":[{"message":"AiError: AiError: Model input is not valid: missing required input image","code":3030}],"success":false,"result":{},"messages":[]}
-2025-02-22 16:25:51,575 - __main__ - INFO - Successfully posted article: Three buses explode in Tel Aviv in 'suspected terror attack' - BBC.com
-2025-02-22 16:27:17,827 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
-2025-02-22 16:27:17,828 - __main__ - INFO - Article already posted: Pope has restful night, has breakfast in armchair - Vatican News - English
-2025-02-22 16:27:17,828 - __main__ - INFO - Article already posted: Three buses explode in Tel Aviv in 'suspected terror attack' - BBC.com
-2025-02-22 16:27:27,970 - __main__ - ERROR - Unexpected response format from Cloudflare API
-2025-02-22 16:27:27,970 - __main__ - WARNING - Image not available. Retrying image generation...
-2025-02-22 16:27:34,568 - __main__ - ERROR - Unexpected response format from Cloudflare API
-2025-02-22 16:27:36,769 - __main__ - INFO - Successfully posted article: MLB games will soon be off ESPN airwaves in media bombshell - New York Post 
-2025-02-22 16:28:35,345 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
-2025-02-22 16:28:35,347 - __main__ - INFO - Article already posted: Pope has restful night, has breakfast in armchair - Vatican News - English
-2025-02-22 16:28:35,347 - __main__ - INFO - Article already posted: Three buses explode in Tel Aviv in 'suspected terror attack' - BBC.com
-2025-02-22 16:28:35,347 - __main__ - INFO - Article already posted: MLB games will soon be off ESPN airwaves in media bombshell - New York Post 
-2025-02-22 16:32:29,533 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
-2025-02-22 16:32:29,535 - __main__ - INFO - Article already posted: Pope has restful night, has breakfast in armchair - Vatican News - English
-2025-02-22 16:32:29,535 - __main__ - INFO - Article already posted: Three buses explode in Tel Aviv in 'suspected terror attack' - BBC.com
-2025-02-22 16:32:29,535 - __main__ - INFO - Article already posted: MLB games will soon be off ESPN airwaves in media bombshell - New York Post 
-2025-02-22 16:34:32,186 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
-2025-02-22 16:34:32,186 - __main__ - INFO - Article already posted: Pope has restful night, has breakfast in armchair - Vatican News - English
-2025-02-22 16:34:32,187 - __main__ - INFO - Article already posted: Three buses explode in Tel Aviv in 'suspected terror attack' - BBC.com
-2025-02-22 16:34:32,187 - __main__ - INFO - Article already posted: MLB games will soon be off ESPN airwaves in media bombshell - New York Post 
-2025-02-22 16:36:50,603 - __main__ - INFO - Article already posted: Connor McDavid scores in OT to give Canada 3-2 win over United States in 4 Nations Face-Off final - The Associated Press
-2025-02-22 16:36:50,604 - __main__ - INFO - Article already posted: Pope has restful night, has breakfast in armchair - Vatican News - English
-2025-02-22 16:36:50,604 - __main__ - INFO - Article already posted: Three buses explode in Tel Aviv in 'suspected terror attack' - BBC.com
-2025-02-22 16:36:50,604 - __main__ - INFO - Article already posted: MLB games will soon be off ESPN airwaves in media bombshell - New York Post 
-2025-02-22 16:40:53,750 - __main__ - INFO - Successfully posted article: CNBC Daily Open: Alibaba shares jump and Amazon beats Walmart in quarterly revenue - CNBC
-2025-02-23 03:37:55,396 - __main__ - ERROR - Error generating summary: ("Invalid operation: The `response.text` quick accessor requires the response to contain a valid `Part`, but none were returned. The candidate's [finish_reason](https://ai.google.dev/api/generate-content#finishreason) is 3. The candidate's safety_ratings are: [category: HARM_CATEGORY_SEXUALLY_EXPLICIT\nprobability: NEGLIGIBLE\n, category: HARM_CATEGORY_HATE_SPEECH\nprobability: NEGLIGIBLE\n, category: HARM_CATEGORY_HARASSMENT\nprobability: MEDIUM\n, category: HARM_CATEGORY_DANGEROUS_CONTENT\nprobability: LOW\n].", [category: HARM_CATEGORY_SEXUALLY_EXPLICIT
-probability: NEGLIGIBLE
-, category: HARM_CATEGORY_HATE_SPEECH
-probability: NEGLIGIBLE
-, category: HARM_CATEGORY_HARASSMENT
-probability: MEDIUM
-, category: HARM_CATEGORY_DANGEROUS_CONTENT
-probability: LOW
-])
-2025-02-23 03:38:15,365 - __main__ - INFO - Successfully posted article: Salman Rushdie attacker found guilty of attempted murder and assault - BBC.com
-2025-02-23 03:41:04,939 - __main__ - INFO - Article already posted: Salman Rushdie attacker found guilty of attempted murder and assault - BBC.com
-2025-02-23 03:41:27,816 - __main__ - INFO - Successfully posted article: Luigi Mangione appears in New York state court for status hearing in UnitedHealthcare CEO killing - CNN
+2025-03-08 16:11:54,792 - __main__ - INFO - Article already posted: M3 Ultra on par with M4 Max in CPU performance based on benchmark test - 9to5Mac
+2025-03-08 16:11:54,792 - __main__ - INFO - Article already posted: Galaxy Z Fold 6 One UI 7 beta update is rolling out! - SamMobile - Samsung news
+2025-03-08 16:12:05,110 - __main__ - INFO - Thumbnail saved to images/20250308161205_56980192.jpg
+2025-03-08 16:12:10,979 - __main__ - INFO - Successfully posted technology article with high-quality image: Pixel 9a’s new purple color and tiny camera bump shown off in latest leaks [Gallery] - 9to5Google
+2025-03-09 23:42:19,503 - __main__ - INFO - Thumbnail saved to images/20250309234219_3a74da33.jpg
+2025-03-09 23:42:25,325 - __main__ - INFO - Successfully posted technology article with high-quality image: The Pokémon Company and Honda have produced a life-sized motorbike based on a Pokemon - Video Games Chronicle
+2025-03-09 23:42:35,522 - __main__ - INFO - Article already posted: The Pokémon Company and Honda have produced a life-sized motorbike based on a Pokemon - Video Games Chronicle
+2025-03-09 23:42:40,649 - __main__ - INFO - Thumbnail saved to images/20250309234240_27c0faba.jpg
+2025-03-09 23:42:45,253 - __main__ - INFO - Successfully posted technology article with high-quality image: 'BS and hype': Amazon execs cast doubt on Microsoft's quantum-computing claims in private discussions - Business Insider
+2025-03-09 23:56:07,418 - __main__ - ERROR - Error in news processing: Invalid isoformat string: '2025-03-09T06:13:01Z'
+2025-03-09 23:58:12,622 - __main__ - INFO - Thumbnail saved to images/20250309235812_d9dd93ea.jpg
+2025-03-09 23:58:16,725 - __main__ - INFO - Successfully posted technology article with high-quality image: Reddit Introduces New Tools for Users To Engage and Boost Contribution Across Its Platform; Check Details
+2025-03-10 00:03:18,712 - __main__ - INFO - Article '5G’s cosmic ring: Unlocking global connectivity with non-terrestrial networks' filtered out: No viral keywords
+2025-03-10 00:03:18,712 - __main__ - INFO - Article 'Amazon Special Discounts: Unmissable deals on monitors, printers, speakers, headphones and more' filtered out: No viral keywords
+2025-03-10 00:03:18,712 - __main__ - INFO - Article 'Lucky numbers for March 09 to March 15: Your weekly fortunate number revealed' filtered out: No viral keywords
+2025-03-10 00:03:18,713 - __main__ - INFO - Article 'Nothing Phone 3a Pro vs Realme 14 Pro Plus vs Motorola Edge 50 Pro: Best Camera System in the Segment? - Gizbot' filtered out: No thumbnail
+2025-03-10 00:03:18,713 - __main__ - INFO - Article 'WhatsApp To Roll Out AI Feature To Generate Group Profile Pictures; Check What's New' filtered out: No viral keywords
+2025-03-10 00:03:18,713 - __main__ - INFO - Article '​6 Zodiac Signs Who are likely to Win Every Game' filtered out: No viral keywords
+2025-03-10 00:03:18,713 - __main__ - INFO - Article 'Weekly Chinese Horoscope, March 09 to March 15, 2025; Five Chinese zodiac signs that are lucky' filtered out: No viral keywords
+2025-03-10 00:03:18,713 - __main__ - INFO - Article 'Blender mixers for your kitchen to make cooking easy and fun again in 2025' filtered out: No viral keywords
+2025-03-10 00:03:18,713 - __main__ - INFO - Article 'Wordle today: Answer, hints for March 9, 2025' filtered out: No viral keywords
+2025-03-10 00:03:18,713 - __main__ - INFO - Found 1 viral technology articles for India
+2025-03-10 00:03:26,350 - __main__ - INFO - Thumbnail saved to images/20250310000326_3a1703bc.jpg
+2025-03-10 00:03:30,538 - __main__ - INFO - Successfully posted viral technology article: Nothing Phone (3a) in for review
+2025-03-10 00:09:22,031 - __main__ - INFO - Article 'Plimmer's maiden ODI hundred gives NZ series win' filtered out: No viral keywords
+2025-03-10 00:09:22,032 - __main__ - INFO - Article 'India, E.U. to hold next round of FTA talks from March 10 amid Trump tariff threats' filtered out: No viral keywords
+2025-03-10 00:09:22,032 - __main__ - INFO - Article 'Climate change more robust now, La Nina may not be effective in warmer future : Scientists' filtered out: No viral keywords
+2025-03-10 00:09:22,032 - __main__ - ERROR - Error in news processing: can only concatenate str (not "NoneType") to str
+2025-03-10 00:11:52,511 - __main__ - INFO - Found 5 recent articles for India
+2025-03-10 00:11:59,531 - __main__ - INFO - Thumbnail saved to images/20250310001159_0e8b84d5.jpg
+2025-03-10 00:12:05,060 - __main__ - INFO - Successfully posted recent article: How Shahid Kapoor Reacted To Reunion With Ex-Girlfriend Kareena Kapoor At IIFA Event: 'It's Nothing...'
+2025-03-10 00:13:00,314 - __main__ - INFO - Found 5 recent articles for India
+2025-03-10 00:13:09,071 - __main__ - ERROR - Invalid image format received: None
+2025-03-10 00:13:09,072 - __main__ - ERROR - Failed to save thumbnail for the article
+2025-03-10 00:13:15,981 - __main__ - INFO - Thumbnail saved to images/20250310001315_4d95ac75.jpg
+2025-03-10 00:13:20,242 - __main__ - INFO - Successfully posted recent article: Elon Musk blames George Soros, Democratic donors for protests against Tesla
+2025-03-10 00:16:30,629 - __main__ - INFO - Found 5 recent articles for India
+2025-03-10 00:16:41,307 - __main__ - WARNING - Thumbnail too small (7517 bytes), likely low quality
+2025-03-10 00:16:41,308 - __main__ - ERROR - Failed to save high-quality thumbnail for the article
+2025-03-10 00:16:50,253 - __main__ - ERROR - Invalid image format received: None
+2025-03-10 00:16:50,255 - __main__ - ERROR - Failed to save high-quality thumbnail for the article
+2025-03-10 00:17:03,535 - __main__ - ERROR - Failed to download thumbnail: HTTP 403
+2025-03-10 00:17:03,537 - __main__ - ERROR - Failed to save high-quality thumbnail for the article
+2025-03-10 00:17:07,448 - __main__ - ERROR - Invalid image format received: webp
+2025-03-10 00:17:07,449 - __main__ - ERROR - Failed to save high-quality thumbnail for the article
+2025-03-10 00:17:17,750 - __main__ - ERROR - Failed to download thumbnail: HTTP 403
+2025-03-10 00:17:17,750 - __main__ - ERROR - Failed to save high-quality thumbnail for the article
+2025-03-10 00:17:18,824 - __main__ - INFO - Found 5 recent articles for India
+2025-03-10 00:17:25,497 - __main__ - INFO - High-quality thumbnail saved to images/20250310001725_c6241273.jpg (67533 bytes)
+2025-03-10 00:17:33,690 - __main__ - INFO - Successfully posted recent article with high-quality image: Delhi Crime: 20-Year-Old Man Killed By Brother-In-Law & Associates For Mistreating Wife; 4 Arrested
+2025-03-10 00:30:40,065 - __main__ - INFO - Found 5 recent articles for India
+2025-03-10 00:30:46,309 - __main__ - WARNING - Summary attempt 1 failed: Invalid length or empty
+2025-03-10 00:30:50,736 - __main__ - WARNING - Summary attempt 2 failed: Invalid length or empty
+2025-03-10 00:30:58,469 - __main__ - WARNING - Summary attempt 3 failed: Invalid length or empty
+2025-03-10 00:30:59,475 - __main__ - WARNING - Summary generation failed after 3 attempts. Using fallback: Breaking news: Careers In Intelligent Supply Chain. Stay tuned for more details on this developing story as events unfold in India.
+2025-03-10 00:31:03,635 - __main__ - INFO - Saved high-quality thumbnail to images/20250310003103_e6ca6087.jpg (153112 bytes)
+2025-03-10 00:31:07,504 - __main__ - INFO - Successfully posted recent article with high-quality image: Careers In Intelligent Supply Chain
+2025-03-10 00:35:50,579 - __main__ - INFO - Found 5 recent articles for India
+2025-03-10 00:35:50,580 - __main__ - INFO - Generated summary: Breaking: Modric will be fit to play against Rayo and in Madrid derby second leg, says Ancelotti. Real has won only once in its last five LaLiga matches and is
+2025-03-10 00:35:50,733 - __main__ - INFO - Saved high-quality thumbnail to images/20250310003550_f5a00fc0.jpg (66822 bytes)
+2025-03-10 00:35:55,088 - __main__ - INFO - Successfully posted recent article with high-quality image: Modric will be fit to play against Rayo and in Madrid derby second leg, says Ancelotti
+2025-03-10 00:36:56,270 - __main__ - INFO - Found 5 recent articles for India
+2025-03-10 00:36:56,270 - __main__ - INFO - Generated summary: Breaking: 'Best Batting Lineup I've Been Part Of': Shubhman Gill Praises India's Power-Packed Lineup Before Champions Trophy Final vs New Zealand. Ahead of the ICC Champions Trophy 2025 final, Shubman
+2025-03-10 00:36:56,531 - __main__ - WARNING - Thumbnail too small (17741 bytes), below 50KB threshold
+2025-03-10 00:36:56,532 - __main__ - ERROR - Failed to save high-quality thumbnail for the article
+2025-03-10 00:36:56,532 - __main__ - INFO - Generated summary: Breaking: FPIs pull out Rs 24,753 crore from equities in first week of March. Foreign investors continue to pull back money from the Indian equity market, withdrawing Rs 24,753 crore
+2025-03-10 00:36:56,630 - __main__ - WARNING - Thumbnail too small (1322 bytes), below 50KB threshold
+2025-03-10 00:36:56,631 - __main__ - ERROR - Failed to save high-quality thumbnail for the article
+2025-03-10 00:36:56,632 - __main__ - INFO - Generated summary: Breaking: 5 Astrological Remedies to Attract Money. Astrology provides remedies to attract wealth through planetary alignments. Practices like worshipping Goddess Lakshmi, chanting mantras for Kuber and Mercury, and using green
+2025-03-10 00:36:56,734 - __main__ - INFO - Saved high-quality thumbnail to images/20250310003656_2f167e1c.jpg (74778 bytes)
+2025-03-10 00:37:00,824 - __main__ - INFO - Successfully posted recent article with high-quality image: 5 Astrological Remedies to Attract Money
+2025-03-10 00:40:01,261 - __main__ - INFO - Found 5 recent articles for India
+2025-03-10 00:40:01,261 - __main__ - INFO - Generated summary: Breaking: Anaswara Rajan and director Deepu Karunakaran settle dispute; Actress to join 'Mr and Mrs Bachelor' promotions. A dispute between 'Mr and Mrs Bachelor' director Deepu Karunakaran and actress Anaswara Rajan has been resolved with the intervention of FEFKA and AMMA. The issue began when Deepu accused Anaswara of not meeting promotional commitments for the film. Anaswara refuted these claims,
+2025-03-10 00:40:01,389 - __main__ - INFO - Saved high-quality thumbnail to images/20250310004001_2ab50dbc.jpg (59818 bytes)
+2025-03-10 00:40:01,390 - __main__ - INFO - Skipping promotional article: Anaswara Rajan and director Deepu Karunakaran settle dispute; Actress to join 'Mr and Mrs Bachelor' promotions
+2025-03-10 00:40:01,390 - __main__ - INFO - Generated summary: Breaking: 'Kingston' OTT release: Find out where to watch GV Prakash Kumar starrer after theatrical release. Fantasy horror film 'Kingston' starring GV Prakash Kumar and directed by Kamal Prakash will soon premiere on ZEE5 after its theatrical release. Set in a cursed sea, the film follows Kingston as he uncovers dark secrets. Despite mixed reviews, it has been praised for
+2025-03-10 00:40:01,500 - __main__ - INFO - Saved high-quality thumbnail to images/20250310004001_bda1783c.jpg (159361 bytes)
+2025-03-10 00:40:08,454 - __main__ - INFO - Successfully posted recent article with high-quality image: 'Kingston' OTT release: Find out where to watch GV Prakash Kumar starrer after theatrical release
+2025-03-10 00:44:44,149 - __main__ - INFO - Found 5 recent articles for India
+2025-03-10 00:44:44,150 - __main__ - INFO - Generated summary: Breaking: Holi 2025 on March 13 or 14? Solve the confusion around date and time of festival of colours here. Holi, the festival of colours, brings joy and anticipation. Confusion surrounds its date, with some believing it be celebrated on March 13, while others suggest a delay due to Bhadra kaal. Holi is celebrated over a period of two days:
+2025-03-10 00:44:44,292 - __main__ - INFO - Saved high-quality thumbnail to images/20250310004444_e493ed57.jpg (255059 bytes)
+2025-03-10 00:44:53,769 - __main__ - INFO - Successfully posted recent article with high-quality image: Holi 2025 on March 13 or 14? Solve the confusion around date and time of festival of colours here
+2025-03-10 02:56:04,672 - __main__ - INFO - Found 5 recent articles for India
+2025-03-10 02:56:04,672 - __main__ - INFO - Generated summary: Breaking: ‘Strength isn't loud...’: IAS officer shares the guilt of motherhood, especially in parents of daughters. The IAS office, no stranger to struggle, shared that no amount of struggle that her career path demanded could have prepared her for the challenges of raising two daughters unfolds across India, captivating the nation with its impact. Follow this unfolding saga as more
+2025-03-10 02:56:04,768 - __main__ - WARNING - Thumbnail too small (34659 bytes), below 50KB threshold
+2025-03-10 02:56:04,769 - __main__ - ERROR - Failed to save high-quality thumbnail for the article
+2025-03-10 02:56:04,769 - __main__ - INFO - Generated summary: Breaking: Rohit Resists Temptation As India Name Safe XI; NZ Make 'Unfortunate' Change. India skipper Rohit Sharma confirmed at the time of toss that that they are going with the same line-up which played the last match unfolds across India, captivating the nation with its impact. Follow this unfolding saga as more updates roll in from across the country.
+2025-03-10 02:56:04,872 - __main__ - INFO - Saved high-quality thumbnail to images/20250310025604_19658093.jpg (166489 bytes)
+2025-03-10 02:56:12,506 - __main__ - INFO - Successfully posted recent article with high-quality image: Rohit Resists Temptation As India Name Safe XI; NZ Make 'Unfortunate' Change
