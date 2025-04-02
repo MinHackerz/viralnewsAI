@@ -87,3 +87,60 @@
 2025-03-10 02:56:04,769 - __main__ - INFO - Generated summary: Breaking: Rohit Resists Temptation As India Name Safe XI; NZ Make 'Unfortunate' Change. India skipper Rohit Sharma confirmed at the time of toss that that they are going with the same line-up which played the last match unfolds across India, captivating the nation with its impact. Follow this unfolding saga as more updates roll in from across the country.
 2025-03-10 02:56:04,872 - __main__ - INFO - Saved high-quality thumbnail to images/20250310025604_19658093.jpg (166489 bytes)
 2025-03-10 02:56:12,506 - __main__ - INFO - Successfully posted recent article with high-quality image: Rohit Resists Temptation As India Name Safe XI; NZ Make 'Unfortunate' Change
+2025-04-02 12:20:24,842 - __main__ - ERROR - Error in automation: Missing environment variables: ['GEMINI_API_KEY']
+2025-04-02 12:21:33,443 - __main__ - INFO - Found 5 recent articles for India
+2025-04-02 12:21:33,444 - __main__ - ERROR - Error in news processing: can only concatenate str (not "NoneType") to str
+2025-04-02 12:24:27,616 - __main__ - INFO - Found 5 recent articles for India
+2025-04-02 12:24:27,617 - __main__ - ERROR - Error in news processing: can only concatenate str (not "NoneType") to str
+2025-04-02 12:28:30,912 - __main__ - INFO - Starting ViralNewsAI application
+2025-04-02 12:28:30,913 - __main__ - INFO - Starting News Automation
+2025-04-02 12:28:32,308 - __main__ - INFO - Successfully configured Google Generative AI
+2025-04-02 12:28:32,309 - __main__ - INFO - Starting to fetch and process news articles
+2025-04-02 12:28:33,738 - __main__ - INFO - Found 5 recent articles for India
+2025-04-02 12:28:33,739 - __main__ - INFO - Processing 5 articles
+2025-04-02 12:28:33,739 - __main__ - INFO - Processing article 1/5: Cops force banker to cut short vacay to join Kamra probe
+2025-04-02 12:28:33,739 - __main__ - INFO - Processing content for article: Cops force banker to cut short vacay to join Kamra probe
+2025-04-02 12:28:35,959 - __main__ - ERROR - Error with Gemini API call: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+2025-04-02 12:28:36,559 - __main__ - INFO - Saved high-quality thumbnail to images/20250402122836_0b35d339.jpg (671268 bytes)
+2025-04-02 12:28:36,560 - __main__ - INFO - Successfully processed article: Cops force banker to cut short vacay to join Kamra probe
+2025-04-02 12:28:36,560 - __main__ - INFO - Attempting to post to Facebook: Cops force banker to cut short vacay to join Kamra probe
+2025-04-02 12:28:43,259 - __main__ - INFO - Successfully posted recent article with high-quality image: Cops force banker to cut short vacay to join Kamra probe
+2025-04-02 12:28:43,262 - __main__ - INFO - Successfully posted article: Cops force banker to cut short vacay to join Kamra probe
+2025-04-02 12:28:43,262 - __main__ - INFO - News Automation completed successfully
+2025-04-02 12:28:43,262 - __main__ - INFO - ViralNewsAI application completed successfully
+2025-04-02 12:29:13,574 - __main__ - INFO - Starting ViralNewsAI application
+2025-04-02 12:29:13,575 - __main__ - INFO - Starting News Automation
+2025-04-02 12:29:15,046 - __main__ - INFO - Successfully configured Google Generative AI
+2025-04-02 12:29:15,048 - __main__ - INFO - Starting to fetch and process news articles
+2025-04-02 12:29:16,321 - __main__ - INFO - Found 5 recent articles for India
+2025-04-02 12:29:16,321 - __main__ - INFO - Processing 5 articles
+2025-04-02 12:29:16,321 - __main__ - INFO - Processing article 1/5: J&K: 1 more killed as forces keep up heat on terrorists
+2025-04-02 12:29:16,321 - __main__ - INFO - Processing content for article: J&K: 1 more killed as forces keep up heat on terrorists
+2025-04-02 12:29:18,382 - __main__ - ERROR - Error with Gemini API call: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+2025-04-02 12:29:19,000 - __main__ - INFO - Saved high-quality thumbnail to images/20250402122918_3e568e79.jpg (170744 bytes)
+2025-04-02 12:29:19,001 - __main__ - INFO - Successfully processed article: J&K: 1 more killed as forces keep up heat on terrorists
+2025-04-02 12:29:19,001 - __main__ - INFO - Attempting to post to Facebook: J&K: 1 more killed as forces keep up heat on terrorists
+2025-04-02 12:29:25,545 - __main__ - INFO - Successfully posted recent article with high-quality image: J&K: 1 more killed as forces keep up heat on terrorists
+2025-04-02 12:29:25,546 - __main__ - INFO - Successfully posted article: J&K: 1 more killed as forces keep up heat on terrorists
+2025-04-02 12:29:25,546 - __main__ - INFO - News Automation completed successfully
+2025-04-02 12:29:25,546 - __main__ - INFO - ViralNewsAI application completed successfully
+2025-04-02 12:29:43,423 - __main__ - INFO - Starting ViralNewsAI application
+2025-04-02 12:29:43,423 - __main__ - INFO - Starting News Automation
+2025-04-02 12:29:44,696 - __main__ - INFO - Successfully configured Google Generative AI
+2025-04-02 12:29:44,698 - __main__ - INFO - Starting to fetch and process news articles
+2025-04-02 12:29:45,898 - __main__ - INFO - Found 5 recent articles for India
+2025-04-02 12:29:45,898 - __main__ - INFO - Processing 5 articles
+2025-04-02 12:29:45,898 - __main__ - INFO - Processing article 1/5: J&K: 1 more killed as forces keep up heat on terrorists
+2025-04-02 12:29:45,898 - __main__ - INFO - Article already posted: J&K: 1 more killed as forces keep up heat on terrorists
+2025-04-02 12:29:45,899 - __main__ - INFO - Processing article 2/5: Parliamentary panel urges Centre to boost SC, ST & OBC scholarships
+2025-04-02 12:29:45,899 - __main__ - INFO - Processing content for article: Parliamentary panel urges Centre to boost SC, ST & OBC scholarships
+2025-04-02 12:29:50,431 - __main__ - INFO - Generated summary using Gemini API: **Parliamentary Panel Calls for Increased and Improved Scholarships for SC, ST, and OBC Students**
+
+...
+2025-04-02 12:29:51,009 - __main__ - INFO - Saved high-quality thumbnail to images/20250402122951_1f84a784.jpg (119932 bytes)
+2025-04-02 12:29:51,010 - __main__ - INFO - Successfully processed article: Parliamentary panel urges Centre to boost SC, ST & OBC scholarships
+2025-04-02 12:29:51,010 - __main__ - INFO - Attempting to post to Facebook: Parliamentary panel urges Centre to boost SC, ST & OBC scholarships
+2025-04-02 12:29:56,063 - __main__ - INFO - Successfully posted recent article with high-quality image: Parliamentary panel urges Centre to boost SC, ST & OBC scholarships
+2025-04-02 12:29:56,065 - __main__ - INFO - Successfully posted article: Parliamentary panel urges Centre to boost SC, ST & OBC scholarships
+2025-04-02 12:29:56,065 - __main__ - INFO - News Automation completed successfully
+2025-04-02 12:29:56,066 - __main__ - INFO - ViralNewsAI application completed successfully

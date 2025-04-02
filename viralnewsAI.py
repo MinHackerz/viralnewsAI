@@ -15,6 +15,7 @@ import time
 from PIL import Image
 import io
 import random
+import google.generativeai as genai
 
 # Suppress SSL warnings
 import warnings
@@ -149,12 +150,20 @@ class NewsAutomation:
         self.page_id = "530122440176152"
 
     def _validate_setup(self) -> None:
-        required_env_vars = ['FACEBOOK_ACCESS_TOKEN', 'NEWSAPI_KEY']
+        required_env_vars = ['FACEBOOK_ACCESS_TOKEN', 'NEWSAPI_KEY', 'GOOGLE_API_KEY']
         missing_vars = [var for var in required_env_vars if not os.getenv(var)]
         if missing_vars:
             raise ValueError(f"Missing environment variables: {missing_vars}")
         if not self.news_api.validate_credentials():
             raise ValueError("Invalid NewsData.io credentials")
+        
+        # Configure Gemini API
+        try:
+            genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
+            logger.info("Successfully configured Google Generative AI")
+        except Exception as e:
+            logger.error(f"Error configuring Gemini API: {str(e)}")
+            raise ValueError(f"Failed to configure Gemini API: {str(e)}")
 
     def get_viral_news(self) -> List[NewsArticle]:
         """Fetch the most recent news specific to India from legitimate sources."""
@@ -189,54 +198,86 @@ class NewsAutomation:
 
     def process_article(self, article: NewsArticle) -> Optional[ProcessedContent]:
         try:
-            summary = self._generate_summary(article.title, article.content)
-            hashtags = self._generate_hashtags(article.content)
+            # Make sure content is not None before processing
+            article_content = article.content if article.content is not None else ""
+            
+            # Generate summary with safe content
+            summary = self._generate_summary(article.title, article_content)
+            
+            # Generate hashtags with safe content
+            hashtags = self._generate_hashtags(article_content)
+            
+            # Get image
             image_path = self._save_thumbnail(article.thumbnail_url)
             if not image_path:
                 logger.error("Failed to save high-quality thumbnail for the article")
                 return None
+                
             return ProcessedContent(summary=summary, hashtags=hashtags, image_path=image_path)
         except Exception as e:
             logger.error(f"Error processing article: {str(e)}")
             return None
 
     def _generate_summary(self, title: str, content: str) -> str:
-        """Craft a 60-word summary using title and description, ensuring it’s human-like."""
-        # If content (description) exists and is long enough, summarize it with title context
-        if content and len(content.split()) > 20:
-            words = content.split()[:50]  # Take enough words to trim to 60 with title
-            summary_base = " ".join(words).strip(".,")  # Clean up trailing punctuation
-            summary = f"Breaking: {title}. {summary_base} unfolds across India, captivating the nation with its impact."
-        else:
-            # Fallback to title-only summary, padded to 60 words
-            summary = (
-                f"Breaking news: {title}. A significant event shakes India, drawing widespread attention. "
-                f"Details are emerging as this story develops, keeping the public on edge. Stay tuned."
-            )
-
-        # Trim or pad to exactly 60 words
-        summary_words = summary.split()
-        if len(summary_words) > 60:
-            summary = " ".join(summary_words[:60])
-        elif len(summary_words) < 60:
-            summary += " Follow this unfolding saga as more updates roll in from across the country."
-        summary = " ".join(summary.split()[:60])  # Ensure exact 60 words
-
-        logger.info(f"Generated summary: {summary}")
-        return summary
+        """Generate a comprehensive summary of the article using Gemini API."""
+        try:
+            # Ensure title and content are not None
+            safe_title = title if title else "Untitled Article"
+            safe_content = content if content else "No content available"
+            
+            # Configure the model - use the correct model name
+            try:
+                model = genai.GenerativeModel('gemini-2.0-flash')
+                
+                # Prepare prompt
+                prompt = f"""
+                Please create a comprehensive news summary based on this information:
+                
+                Title: {safe_title}
+                
+                Content: {safe_content}
+                
+                Generate a detailed summary that captures the key points of this news article.
+                Write in a journalistic, informative style. Do not add any fictional elements.
+                Focus on facts presented in the article. The summary should be comprehensive 
+                with no word limit constraints.
+                """
+                
+                # Generate response from Gemini
+                response = model.generate_content(prompt)
+                
+                # Get the summary from the response
+                if response and hasattr(response, 'text'):
+                    summary = response.text.strip()
+                    if summary:
+                        logger.info(f"Generated summary using Gemini API: {summary[:100]}...")
+                        return summary
+            except Exception as e:
+                logger.error(f"Error with Gemini API call: {str(e)}")
+                
+            # If we get here, something went wrong with the API call
+            return f"Breaking news: {safe_title}."
+            
+        except Exception as e:
+            logger.error(f"Error generating summary with Gemini API: {str(e)}")
+            # We'll still return something rather than None to prevent downstream issues
+            return f"Breaking news: {title if title else 'Recent News Update'}."
 
     def _generate_hashtags(self, text: str) -> List[str]:
         try:
+            # Ensure text is not None
+            safe_text = text if text else ""
+            
             hashtag_count = random.randint(10, 15)  # Rotate between 10-15
             # Simple hashtag generation from text
-            words = [w.capitalize() for w in text.split() if len(w) > 4 and w.isalpha()]
+            words = [w.capitalize() for w in safe_text.split() if len(w) > 4 and w.isalpha()]
             hashtags = [f"#{w}" for w in words[:hashtag_count]]
             if len(hashtags) < hashtag_count:
-                hashtags.extend(self._fallback_hashtags(text, hashtag_count - len(hashtags)))
+                hashtags.extend(self._fallback_hashtags(safe_text, hashtag_count - len(hashtags)))
             return hashtags[:hashtag_count]
         except Exception as e:
             logger.error(f"Error generating hashtags: {str(e)}")
-            return self._fallback_hashtags(text, random.randint(10, 15))
+            return self._fallback_hashtags(text if text else "", random.randint(10, 15))
 
     def _fallback_hashtags(self, text: str, count: int) -> List[str]:
         generic_tags = [
@@ -244,7 +285,11 @@ class NewsAutomation:
             "#CurrentEvents", "#Headlines", "#TopStories", "#IndiaUpdate", "#DailyNews",
             "#HotNews", "#IndiaToday", "#NewsAlert", "#StoryOfTheDay", "#MustRead"
         ]
-        words = [word for word in text.split() if len(word) > 5 and word.isalpha()]
+        
+        # Ensure text is not None
+        safe_text = text if text is not None else ""
+        
+        words = [word for word in safe_text.split() if len(word) > 5 and word.isalpha()]
         custom_tags = [f"#{word.capitalize()}" for word in words[:count]]
         all_tags = generic_tags + custom_tags
         return all_tags[:count]
@@ -292,14 +337,26 @@ class NewsAutomation:
             return None
 
     def _is_promotional(self, text: str) -> bool:
+        # Ensure text is not None
+        if text is None:
+            return False
+            
         promotional_keywords = ["advertisement", "sponsored", "promotion", "buy now", "limited offer"]
         return any(keyword in text.lower() for keyword in promotional_keywords)
 
     def _is_astrology(self, title: str, content: str) -> bool:
         """Check if the article is astrology-related."""
-        astrology_keywords = ["astrology", "horoscope", "zodiac", "starsign", "planetary", "astrologer"]
-        text = (title + " " + content).lower()
-        return any(keyword in text for keyword in astrology_keywords)
+        try:
+            # Ensure title and content are not None
+            safe_title = title if title is not None else ""
+            safe_content = content if content is not None else ""
+            
+            combined_text = (safe_title + " " + safe_content).lower()
+            astrology_keywords = ["astrology", "horoscope", "zodiac", "starsign", "planetary", "astrologer"]
+            return any(keyword in combined_text for keyword in astrology_keywords)
+        except Exception as e:
+            logger.error(f"Error checking for astrology content: {str(e)}")
+            return False
 
     def _load_posted_articles(self) -> set:
         if not os.path.exists(self.posted_articles_file):
@@ -323,8 +380,8 @@ class NewsAutomation:
                 processed_content.hashtags = self._fallback_hashtags(article.content, random.randint(10, 15))
 
             if not processed_content.summary:
-                logger.warning("Missing summary for the post. Using title-based summary.")
-                processed_content.summary = f"Breaking news: {article.title}. More details to follow."
+                logger.warning("Missing summary from Gemini API, using article title.")
+                processed_content.summary = f"Breaking news: {article.title}."
 
             if not article.source_name or not article.url:
                 logger.warning("Missing source information. Skipping post.")
@@ -334,7 +391,7 @@ class NewsAutomation:
                 logger.error("Image path is invalid or does not exist")
                 return False
 
-            hashtag_text = " ".join(processed_content.hashtags)  # Use all hashtags (10-15)
+            hashtag_text = " ".join(processed_content.hashtags)
             message = (
                 f"{processed_content.summary}\n\n"
                 f"{hashtag_text}\n\n"
@@ -369,32 +426,126 @@ class NewsAutomation:
     def process_news(self) -> None:
         try:
             while True:
+                logger.info("Starting to fetch and process news articles")
                 articles = self.get_viral_news()
+                
                 if not articles:
                     logger.warning("No recent articles found")
                     break
-                for article in articles:
-                    if article.url in self.posted_articles:
-                        logger.info(f"Article already posted: {article.title}")
+                
+                logger.info(f"Processing {len(articles)} articles")
+                for i, article in enumerate(articles):
+                    try:
+                        logger.info(f"Processing article {i+1}/{len(articles)}: {article.title}")
+                        
+                        # Check if already posted
+                        if article.url in self.posted_articles:
+                            logger.info(f"Article already posted: {article.title}")
+                            continue
+                            
+                        # Check for astrology (safely)
+                        if article.title is None and article.content is None:
+                            logger.warning("Article has no title or content, skipping")
+                            continue
+                            
+                        # Check if article is about astrology
+                        try:
+                            if self._is_astrology(article.title, article.content):
+                                logger.info(f"Skipping astrology-related article: {article.title}")
+                                continue
+                        except Exception as e:
+                            logger.error(f"Error during astrology check: {str(e)}")
+                            continue
+                        
+                        # Process the article
+                        logger.info(f"Processing content for article: {article.title}")
+                        processed_content = self.process_article(article)
+                        
+                        if processed_content:
+                            logger.info(f"Successfully processed article: {article.title}")
+                            logger.info(f"Attempting to post to Facebook: {article.title}")
+                            
+                            if self.post_to_facebook(article, processed_content):
+                                logger.info(f"Successfully posted article: {article.title}")
+                                return  # Post one article per run
+                            else:
+                                logger.warning(f"Failed to post article: {article.title}")
+                        else:
+                            logger.warning(f"Failed to process article: {article.title}")
+                    except Exception as e:
+                        logger.error(f"Error processing article {article.title}: {str(e)}")
                         continue
-                    if self._is_astrology(article.title, article.content):
-                        logger.info(f"Skipping astrology-related article: {article.title}")
-                        continue
-                    processed_content = self.process_article(article)
-                    if processed_content:
-                        if self.post_to_facebook(article, processed_content):
-                            return  # Post one article per run
+                
+                # If we reach here, we couldn't post any articles
+                logger.info("No articles were posted in this run")
+                break
+                
         except Exception as e:
             logger.error(f"Error in news processing: {str(e)}")
+            import traceback
+            logger.error(f"Traceback: {traceback.format_exc()}")
+
+def test_gemini():
+    """Test function to verify Gemini API connectivity."""
+    try:
+        # Configure the API
+        load_dotenv()
+        api_key = os.getenv('GOOGLE_API_KEY')
+        if not api_key:
+            print("Error: GOOGLE_API_KEY not found in environment variables")
+            return False
+            
+        genai.configure(api_key=api_key)
+        
+        # Try a simple prompt
+        model = genai.GenerativeModel('gemini-2.0-flash')
+        response = model.generate_content("Write a one-sentence test response.")
+        
+        if response and hasattr(response, 'text'):
+            print(f"Gemini API Test Success: {response.text}")
+            return True
+        else:
+            print("Error: Unexpected response format from Gemini API")
+            return False
+    except Exception as e:
+        print(f"Error testing Gemini API: {str(e)}")
+        import traceback
+        print(f"Traceback: {traceback.format_exc()}")
+        return False
 
 def run_automation(config_path: str = "config.yaml"):
     try:
+        logger.info("Starting News Automation")
         config = Config(config_path)
         news_bot = NewsAutomation(config_path)
         news_bot.process_news()
+        logger.info("News Automation completed successfully")
     except Exception as e:
         logger.error(f"Error in automation: {str(e)}")
+        import traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
         raise
 
 if __name__ == "__main__":
-    run_automation()
+    import sys
+    
+    # Check for command line arguments
+    if len(sys.argv) > 1 and sys.argv[1] == "test_gemini":
+        print("Testing Gemini API connectivity...")
+        if test_gemini():
+            print("Gemini API test passed!")
+            sys.exit(0)
+        else:
+            print("Gemini API test failed!")
+            sys.exit(1)
+    
+    # Normal execution
+    try:
+        logger.info("Starting ViralNewsAI application")
+        run_automation()
+        logger.info("ViralNewsAI application completed successfully")
+    except Exception as e:
+        logger.error(f"Critical error in ViralNewsAI application: {str(e)}")
+        import traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        sys.exit(1)
