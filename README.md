@@ -11,13 +11,18 @@ Welcome to the Viral News Automation project! This guide will help you set up an
      ```
    - Or, create a new project in PyCharm and link it to the repository.
 
-2. **Install Dependencies**:
+2. **Python Compatibility**:
+   - This project is compatible with Python 3.11 and 3.12
+   - Python 3.13 is supported with the latest updates
+   - Python 3.10 or earlier may have compatibility issues
+
+3. **Install Dependencies**:
    - Navigate to the project directory and install the required dependencies:
      ```sh
      pip install -r requirements.txt
      ```
 
-3. **Configure Environment Variables**:
+4. **Configure Environment Variables**:
    - Create a `.env` file in the root directory of the project.
    - Add the following API keys to the `.env` file:
      ```env
@@ -27,7 +32,7 @@ Welcome to the Viral News Automation project! This guide will help you set up an
      CLOUDFLARE_API_KEY=your_cloudflare_api_key
      ```
 
-4. **Generate Facebook Access Token**:
+5. **Generate Facebook Access Token**:
    - To generate a `FACEBOOK_ACCESS_TOKEN`, follow these steps:
 
      ### Step 1: Create a Facebook App
@@ -72,12 +77,12 @@ Welcome to the Viral News Automation project! This guide will help you set up an
        ```
      - Copy the `access_token` for your page and add it to your `.env` file.
 
-5. **Add Facebook Page ID**:
+6. **Add Facebook Page ID**:
    - Open the `viralnewsAI.py` file.
    - Locate the section where the Facebook Page ID is required.
    - Add your Facebook Page ID to the script.
 
-6. **Run the Script**:
+7. **Run the Script**:
    - Execute the main script to start the automation:
      ```sh
      python viralnewsAI.py
@@ -99,6 +104,22 @@ Welcome to the Viral News Automation project! This guide will help you set up an
 
 - **Run the Script**:
   - Run the script using PyCharm's run configuration or directly from the terminal within PyCharm.
+
+## GitHub Actions Automation
+
+This project includes GitHub Actions workflows to automate posting:
+
+1. **Setting Up GitHub Actions**:
+   - See [GITHUB_SETUP.md](GITHUB_SETUP.md) for detailed instructions on configuring GitHub Actions
+   - You must add your API keys as GitHub repository secrets
+
+2. **Automation Schedule**:
+   - By default, the workflow runs every hour
+   - You can modify the schedule in `.github/workflows/main.yaml`
+
+3. **Troubleshooting**:
+   - If you encounter environment variable errors, verify your GitHub secrets are correctly set up
+   - Check the GitHub Actions logs for detailed error information
 
 ## Sample Output
 

@@ -12,7 +12,6 @@ from abc import ABC, abstractmethod
 import pytz
 import base64
 import hashlib
-import imghdr
 import random
 import time  # Import the time module
 from PIL import Image
@@ -429,57 +428,42 @@ class NewsAutomation:
         return all_tags[:self.config.config['content']['hashtag_count']]
 
     def _generate_high_quality_image(self, summary: str, url: str) -> Optional[tuple]:
-        """Generate high-quality image with quality validation"""
-        max_attempts = 3
-        min_quality_score = self.config.config['content'].get('min_image_quality_score', 0.7)
-
-        for attempt in range(1, max_attempts + 1):
-            try:
-                logger.info(f"Generating image - attempt {attempt} of {max_attempts}")
-
-                # Generate an advanced prompt using Gemini AI
-                advanced_prompt = self._generate_advanced_image_prompt(summary)
-                image_result = self.cloudflare_ai.generate_image(advanced_prompt)
-
-                if not image_result:
-                    logger.warning(f"No image data received on attempt {attempt}")
-                    continue
-
-                image_data = image_result.get("image_data")
-                quality_score = image_result.get("quality_score", 0)
-
-                logger.info(f"Image generated with quality score: {quality_score:.2f}")
-
-                # Check if image meets minimum quality requirements
-                if quality_score < min_quality_score:
-                    logger.warning(
-                        f"Image quality score {quality_score:.2f} below threshold {min_quality_score}. Retrying...")
-                    continue
-
-                # Validate image format
-                image_format = imghdr.what(None, image_data)
-                if image_format not in ['jpeg', 'png']:
-                    logger.error(f"Invalid image format received: {image_format}")
-                    continue
-
-                # Save the high-quality image
-                url_hash = hashlib.md5(url.encode()).hexdigest()[:8]
-                timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-                extension = 'jpg' if image_format == 'jpeg' else image_format
-                filename = f"{timestamp}_{url_hash}.{extension}"
-                image_path = os.path.join("images", filename)
-
-                with open(image_path, "wb") as f:
-                    f.write(image_data)
-
-                logger.info(f"High-quality image saved to {image_path}")
-                return image_path, quality_score
-
-            except Exception as e:
-                logger.error(f"Error in high-quality image generation (attempt {attempt}): {str(e)}")
-
-        logger.error("Failed to generate acceptable image after maximum attempts")
-        return None
+        try:
+            content_hash = hashlib.md5(url.encode()).hexdigest()[:8]
+            timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+            
+            # Generate a better prompt
+            prompt = self._generate_advanced_image_prompt(summary)
+            logger.info(f"Generated image prompt: {prompt}")
+            
+            # Generate the image
+            result = self.cloudflare_ai.generate_image(prompt)
+            if not result or "image_data" not in result:
+                logger.error("Failed to generate image with Cloudflare AI")
+                return None
+            
+            image_data = result["image_data"]
+            quality_score = result.get("quality_score", 0.0)
+            
+            # Check image format
+            content_bytes = io.BytesIO(image_data)
+            image_format = get_image_format(content_bytes)
+            if not image_format:
+                logger.error("Generated image has invalid format")
+                return None
+            
+            filename = f"{timestamp}_{content_hash}.jpg"
+            image_path = os.path.join("images", filename)
+            
+            with open(image_path, "wb") as f:
+                f.write(image_data)
+            
+            logger.info(f"Generated and saved image to {image_path} with quality score {quality_score}")
+            return (image_path, quality_score)
+        
+        except Exception as e:
+            logger.error(f"Error generating image: {str(e)}")
+            return None
 
     def _generate_advanced_image_prompt(self, summary: str) -> str:
         """Generate a detailed prompt for tech news image generation"""
@@ -577,19 +561,17 @@ class NewsAutomation:
             # Post with high-quality image
             try:
                 with open(processed_content.image_path, 'rb') as image_file:
-                    # Verify image is readable
-                    image_format = imghdr.what(image_file)
+                    image_format = get_image_format(image_file)
                     if not image_format:
                         logger.error(f"Invalid image format in {processed_content.image_path}")
                         return False
-
                     image_file.seek(0)
                     self.fb_api.put_photo(
                         image=image_file,
                         message=message,
                         published=True
                     )
-                    logger.info(f"Successfully posted technology article with high-quality image: {article.title}")
+                    logger.info(f"Successfully posted article with AI-generated image: {article.title}")
             except Exception as e:
                 logger.error(f"Failed to post to Facebook: {str(e)}")
                 return False
@@ -630,6 +612,14 @@ def run_automation(config_path: str = "config.yaml"):
     except Exception as e:
         logger.error(f"Error in automation: {str(e)}")
         raise
+
+def get_image_format(file_or_bytes):
+    """Replacement for imghdr functionality using PIL"""
+    try:
+        image = Image.open(file_or_bytes)
+        return image.format.lower() if image.format else None
+    except Exception:
+        return None
 
 if __name__ == "__main__":
     run_automation()
