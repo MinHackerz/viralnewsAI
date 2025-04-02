@@ -144,3 +144,21 @@
 2025-04-02 12:29:56,065 - __main__ - INFO - Successfully posted article: Parliamentary panel urges Centre to boost SC, ST & OBC scholarships
 2025-04-02 12:29:56,065 - __main__ - INFO - News Automation completed successfully
 2025-04-02 12:29:56,066 - __main__ - INFO - ViralNewsAI application completed successfully
+2025-04-02 13:55:25,526 - __main__ - INFO - Starting ViralNewsAI application
+2025-04-02 13:55:25,527 - __main__ - INFO - Starting News Automation
+2025-04-02 13:55:26,889 - __main__ - INFO - Successfully configured Google Generative AI
+2025-04-02 13:55:26,890 - __main__ - INFO - Starting to fetch and process news articles
+2025-04-02 13:55:27,836 - __main__ - INFO - Found 5 recent articles for India
+2025-04-02 13:55:27,836 - __main__ - INFO - Processing 5 articles
+2025-04-02 13:55:27,836 - __main__ - INFO - Processing article 1/5: Dennis Rodman busts ‘dead’ rumor with new April 1 post: ‘Alive and well’
+2025-04-02 13:55:27,836 - __main__ - INFO - Processing content for article: Dennis Rodman busts ‘dead’ rumor with new April 1 post: ‘Alive and well’
+2025-04-02 13:55:31,313 - __main__ - INFO - Generated summary using Gemini API: **Dennis Rodman Responds to False Death Rumors, Asserts He's 'Alive and Well'**
+
+Former Chicago Bull...
+2025-04-02 13:55:31,786 - __main__ - INFO - Saved high-quality thumbnail to images/20250402135531_ec928aba.jpg (432236 bytes)
+2025-04-02 13:55:31,787 - __main__ - INFO - Successfully processed article: Dennis Rodman busts ‘dead’ rumor with new April 1 post: ‘Alive and well’
+2025-04-02 13:55:31,787 - __main__ - INFO - Attempting to post to Facebook: Dennis Rodman busts ‘dead’ rumor with new April 1 post: ‘Alive and well’
+2025-04-02 13:55:39,506 - __main__ - INFO - Successfully posted recent article with high-quality image: Dennis Rodman busts ‘dead’ rumor with new April 1 post: ‘Alive and well’
+2025-04-02 13:55:39,507 - __main__ - INFO - Successfully posted article: Dennis Rodman busts ‘dead’ rumor with new April 1 post: ‘Alive and well’
+2025-04-02 13:55:39,508 - __main__ - INFO - News Automation completed successfully
+2025-04-02 13:55:39,508 - __main__ - INFO - ViralNewsAI application completed successfully

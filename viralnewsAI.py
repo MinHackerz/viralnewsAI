@@ -10,7 +10,6 @@ from dotenv import load_dotenv
 from abc import ABC, abstractmethod
 import pytz
 import hashlib
-import imghdr
 import time
 from PIL import Image
 import io
@@ -130,6 +129,14 @@ class Config:
         with open(self.config_path, 'w') as file:
             yaml.dump(default_config, file)
         return default_config
+
+def get_image_format(file_or_bytes):
+    """Replacement for imghdr functionality using PIL"""
+    try:
+        image = Image.open(file_or_bytes)
+        return image.format.lower() if image.format else None
+    except Exception:
+        return None
 
 class NewsAutomation:
     """Main class for news automation system"""
@@ -312,7 +319,8 @@ class NewsAutomation:
                 return None
 
             # Check image format
-            image_format = imghdr.what(None, response.content)
+            content_bytes = io.BytesIO(response.content)
+            image_format = get_image_format(content_bytes)
             if image_format not in ['jpeg', 'png', 'webp']:
                 logger.error(f"Invalid image format received: {image_format}")
                 return None
@@ -401,7 +409,7 @@ class NewsAutomation:
 
             try:
                 with open(processed_content.image_path, 'rb') as image_file:
-                    image_format = imghdr.what(image_file)
+                    image_format = get_image_format(image_file)
                     if not image_format:
                         logger.error(f"Invalid image format in {processed_content.image_path}")
                         return False
